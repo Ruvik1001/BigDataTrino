@@ -1,3 +1,5 @@
+Работа выполнена студентом МАИ группы М8О-205СВ-25 Рудневым Виктором Владимировичем.
+
 # BigDataTrino
 Анализ больших данных - лабораторная работа №4 - ETL реализованный с помощью Trino
 
@@ -66,3 +68,15 @@
 3. Инструкция, как запускать Trino-скрипты для проверки лабораторной работы.
 4. Код Trino трансформации данных из исходной модели в снежинку/звезду в ClickHouse.
 5. Код Trino трансформации данных из снежинки/звезды в отчеты в ClickHouse.
+
+## Запуск
+
+Скопировать `.env_example` в `.env` (что куда писать — в `REPORT.md`), затем из каталога `BigDataTrino`:
+
+```bash
+docker compose up -d --build
+docker exec bdtrino-trino trino --file /sql/01_star.sql
+docker exec bdtrino-trino trino --file /sql/02_reports.sql
+```
+
+`docker compose up` поднимает Postgres, ClickHouse и Trino. В ClickHouse попадают первые пять CSV (5000 строк), в Postgres — следующие пять. Скрипт `01_star.sql` собирает из обоих источников схему `star` в ClickHouse. `02_reports.sql` пишет шесть витрин в базу `reports`.
